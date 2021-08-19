@@ -23,3 +23,22 @@ exports.getAllRequests = (req, res) => {
     });
   });
 }
+
+exports.getRequest = (req, res) => {  
+  const id = req.params.id;
+  
+  Request.findById(id).then(data => {
+    if (!data) {
+      res.status(404).send({ 
+        message: "Não foi possível encontrar request com esse" + id 
+      })
+      return
+    }
+    res.send(data);
+  })
+  .catch(error => {
+    res.status(500).send({
+      message: "Erro ao dar fetch no request com esse" + id
+    });
+  });
+}

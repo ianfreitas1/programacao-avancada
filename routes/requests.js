@@ -1,8 +1,9 @@
 const express = require('express');
-const { createRequest, getAllRequests } = require('../controllers/requests');
+const { createRequest, getAllRequests, getRequest } = require('../controllers/requests');
 
 const router = express.Router();
 
+router.get('/:id', getRequest);
 router.get('', getAllRequests);
 router.post('', createRequest);
 
