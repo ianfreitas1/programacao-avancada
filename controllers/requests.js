@@ -54,3 +54,22 @@ exports.updateRequest = (req, res) => {
       });
     });
 }
+
+exports.deleteRequest = (req, res) => {  
+  const id = req.params.id;
+  
+  Request.findByIdAndRemove(id).then(data => {
+    if (!data) {
+      res.status(404).send({ 
+        message: "Não foi possível deletar request com esse id. Talvez esse request não exista!"
+      })
+      return
+    }
+    res.send({ message: "Seu request foi deletado com sucesso!"});
+  })
+  .catch(error => {
+    res.status(500).send({
+      message: "Erro ao tentar deletar request com esse" + id
+    });
+  });
+}
