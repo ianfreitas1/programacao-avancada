@@ -42,3 +42,15 @@ exports.getRequest = (req, res) => {
     });
   });
 }
+
+exports.updateRequest = (req, res) => {  
+  const id = req.params.id;
+  
+  Request.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+    .then(res.send({ message: "Seu request foi atualizado com sucesso!"}))
+    .catch(error => {
+      res.status(500).send({
+        message: "Erro ao tentar atualizar o request com esse" + id
+      });
+    });
+}
