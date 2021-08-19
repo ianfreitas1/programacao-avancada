@@ -12,3 +12,14 @@ exports.createRequest = async (req, res) => {
     return res.status(500).json({ error: 'Erro ao criar request' });
   }
 };
+
+exports.getAllRequests = (req, res) => {  
+  Request.find().then(data => {
+    res.send(data);
+  })
+  .catch(error => {
+    res.status(500).send({
+      message: "Erro ao dar fetch nos requests."
+    });
+  });
+}
