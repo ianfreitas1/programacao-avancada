@@ -7,6 +7,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 dotenv.config();
 
 const users = require('./routes/users');
+const requests = require('./routes/requests');
 
 mongoose.connect(
   process.env.MONGO_URI,
@@ -26,6 +27,7 @@ app.use(cors());
 app.use(mongoSanitize());
 
 app.use('/api/users', users);
+app.use('/api/requests', requests);
 
 const PORT = 5000;
 
