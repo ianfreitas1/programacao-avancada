@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 
 const RequestSchema = new Schema({
   tutor: {
-    type: ObjectId,
+    type: 'ObjectId',
+    ref: 'User',
     required: true,
   },
   subject: {
