@@ -22,7 +22,6 @@
     "nodemon": "^2.0.12"
   },
   "dependencies": {
-    "@material-ui/core": "^4.12.3",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
