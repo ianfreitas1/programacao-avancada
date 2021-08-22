@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const RequestSchema = new Schema({
   tutor: {
-    type: String,
-    required: [true, 'Please add a name'],
+    type: ObjectId,
+    required: true,
   },
   subject: {
     type: String,
