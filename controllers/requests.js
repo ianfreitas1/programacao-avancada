@@ -49,7 +49,7 @@ exports.getRequest = (req, res) => {
     });
 };
 
-exports.updateRequest = (req, res) => {
+exports.updateRequest = async (req, res) => {
   const id = req.params.id;
 
   let request = await Request.findById(id);
@@ -74,7 +74,7 @@ exports.updateRequest = (req, res) => {
   return res.json(request);
 };
 
-exports.deleteRequest = (req, res) => {
+exports.deleteRequest = async (req, res) => {
   const id = req.params.id;
 
   const request = await Request.findById(id);
