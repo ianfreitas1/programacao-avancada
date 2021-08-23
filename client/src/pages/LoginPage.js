@@ -33,56 +33,56 @@ const LoginPage = () => {
     return (
         <>
         <Container component="main" maxWidth="xs">
-        <div className={classes.paper}>
-            <Typography component="h1" variant="h5">
-            Sign in
-            </Typography>
-            <form className={classes.form} noValidate>
-            <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                autoFocus
-            />
-            <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                label="Password"
-                type="password"
-                id="password"
-            />
-            <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-            />
-            <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-            >
-                Sign In
-            </Button>
-            <Grid container>
-                <Grid item xs>
-                <Link href="#">
-                    Forgot password?
-                </Link>
-                </Grid>
-                <Grid item>
-                <Link href="#">
-                    {"Don't have an account? Sign Up"}
-                </Link>
-                </Grid>
-            </Grid>
-            </form>
-        </div>
+            <div className={classes.paper}>
+                <Typography component="h1" variant="h5">
+                    Sign in
+                </Typography>
+                <form className={classes.form} noValidate>
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        id="email"
+                        label="Email Address"
+                        autoFocus
+                    />
+                    <TextField
+                        variant="outlined"
+                        margin="normal"
+                        required
+                        fullWidth
+                        label="Password"
+                        type="password"
+                        id="password"
+                    />
+                    <FormControlLabel
+                        control={<Checkbox value="remember" color="primary" />}
+                        label="Remember me"
+                    />
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="primary"
+                        className={classes.submit}
+                    >
+                        Sign In
+                    </Button>
+                    <Grid container>
+                        <Grid item xs>
+                            <Link href="#">
+                                Forgot password?
+                            </Link>
+                        </Grid>
+                        <Grid item>
+                        <Link href="#">
+                            {"Don't have an account? Sign Up"}
+                        </Link>
+                        </Grid>
+                    </Grid>
+                </form>
+            </div>
         </Container>
         <Footer />
         </>
