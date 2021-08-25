@@ -17,16 +17,13 @@ exports.createRequest = async (req, res) => {
   }
 };
 
-exports.getAllRequests = (req, res) => {
-  Request.find()
-    .then(data => {
-      res.json(data);
-    })
-    .catch(error => {
-      res.status(500).json({
-        message: 'Erro ao dar fetch nos requests.',
-      });
-    });
+exports.getAllRequests = async (req, res) => {
+  try {
+    const requests = await Request.find().populate('tutor');
+    return res.json(requests);
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao dar fetch nos requests' });
+  }
 };
 
 exports.getRequest = (req, res) => {

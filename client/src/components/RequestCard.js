@@ -30,14 +30,14 @@ export default function RequestCard({ card }) {
           {card.subject}
         </Typography>
         <Typography className={classes.pos} color="textSecondary">
-          {card.tutor}
+          {card.tutor.name}
         </Typography>
         <Typography variant="body2" component="p">
           {card.description}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Inscrever-se</Button>
+        <Button size="small">Join</Button>
       </CardActions>
     </Card>
   );

@@ -39,7 +39,7 @@ const DashboardPage = () => {
       setCards(response);
     }
     fetchRequestsApi();
-  }, [cards]);
+  }, []);
 
   const handleOpen = () => {
     setOpen(true);
