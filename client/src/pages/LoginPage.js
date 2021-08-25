@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import Footer from '../components/Footer';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -10,25 +10,57 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { signInUser } from '../api/authApi';
+
+const useStyles = makeStyles(theme => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  form: {
+    width: '100%',
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+  error: {
+    color: 'red',
+  },
+}));
 
 const LoginPage = () => {
-  const useStyles = makeStyles(theme => ({
-    paper: {
-      marginTop: theme.spacing(8),
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-    },
-    form: {
-      width: '100%',
-      marginTop: theme.spacing(1),
-    },
-    submit: {
-      margin: theme.spacing(3, 0, 2),
-    },
-  }));
-
   const classes = useStyles();
+  const history = useHistory();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    if (token) history.push('/dashboard');
+  }, []);
+
+  const handleUserLogin = async e => {
+    e.preventDefault();
+    try {
+      const { user, token } = await signInUser({ email, password });
+      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('token', JSON.stringify(token));
+      setError(null);
+      history.push('/dashboard');
+    } catch (error) {
+      if (!error) {
+        setError('Failed while trying to login. Please try again in a moment.');
+      } else {
+        setError(error.message);
+      }
+    }
+  };
 
   return (
     <>
@@ -45,6 +77,8 @@ const LoginPage = () => {
               fullWidth
               id="email"
               label="Email Address"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
               autoFocus
             />
             <TextField
@@ -54,18 +88,24 @@ const LoginPage = () => {
               fullWidth
               label="Password"
               type="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
               id="password"
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
+            {error && (
+              <Typography className={classes.error}>{error}</Typography>
+            )}
             <Button
               type="submit"
               fullWidth
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick={handleUserLogin}
             >
               Sign In
             </Button>
