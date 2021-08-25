@@ -51,7 +51,7 @@ const DashboardPage = () => {
 
   const handleCreateRequest = async () => {
     const response = await createRequest(
-      { token: JSON.parse(localStorage.getItem('user')).token },
+      { token: JSON.parse(localStorage.getItem('token')) },
       { subject, description }
     );
 
