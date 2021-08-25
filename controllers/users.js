@@ -26,7 +26,7 @@ exports.login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ email }).select('+password');
+    let user = await User.findOne({ email }).select('+password');
 
     if (!user) {
       return res.status(400).json({ message: 'Credenciais inválidas' });
@@ -40,7 +40,10 @@ exports.login = async (req, res) => {
 
     const token = user.getSignedJwtToken();
 
-    return res.json({ token });
+    user = user.toObject();
+    delete user.password;
+
+    return res.json({ token, user });
   } catch (error) {
     console.error(error.message);
     res.status(500).send('Server Error');
