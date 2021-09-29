@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  app-react:
+      container_name: frontend_tutora
+      build:
+          context: .
+          dockerfile: client/Dockerfile
+      ports:
+          - '8080:3000'
+      environment:
+          - NODE_ENV=development
+      depends_on:
+        - app-node
+
+  app-node:
+    container_name: backend_tutora
+    build:
+        context: .
+        dockerfile: Dockerfile
+    environment:
+        - NODE_ENV=development
