@@ -93,3 +93,27 @@ exports.deleteRequest = async (req, res) => {
 
   return res.json({ message: 'Seu request foi deletado com sucesso!' });
 };
+
+exports.subscribeToClass = async (req, res) => {
+  const id = req.params.id;
+
+  let request = await Request.findById(id);
+
+  if (!request) {
+    return res
+      .status(404)
+      .json({ message: `Erro ao atualizar request com id ${id}` });
+  }
+
+  request = await Request.findByIdAndUpdate(id,
+    {
+      $addToSet: { students: req.user, }
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  return res.json(request);
+};
