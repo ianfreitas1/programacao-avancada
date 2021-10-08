@@ -15,6 +15,10 @@ const RequestSchema = new Schema({
     type: String,
     required: [true, 'Please add a description'],
   },
+  students: [{
+    type: 'ObjectId',
+    ref: 'User',
+  }],
 });
 
 module.exports = mongoose.model('Request', RequestSchema);
