@@ -5,6 +5,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { joinClass } from '../api/requestsApi';
 
 const useStyles = makeStyles({
   bullet: {
@@ -19,6 +20,13 @@ const useStyles = makeStyles({
     marginBottom: 12,
   },
 });
+
+const handleJoinClass = async () => {
+  const response = await joinClass(
+    { token: JSON.parse(localStorage.getItem('token')) },
+    { students }
+  );
+};
 
 export default function RequestCard({ card }) {
   const classes = useStyles();
@@ -37,7 +45,11 @@ export default function RequestCard({ card }) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Join</Button>
+        <Button size="small"
+           onClick={handleJoinClass}
+        >
+          Join
+        </Button>
       </CardActions>
     </Card>
   );
