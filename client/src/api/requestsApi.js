@@ -19,10 +19,9 @@ async function createRequest(auth, requestData) {
   return response;
 }
 
-async function joinClass(auth, userData) {
+async function joinClass(auth, requestId) {
   const response = await update({
-    resource: '/requests/subscribe',
-    body: userData,
+    resource: `/requests/subscribe/${requestId}`,
     auth,
   });
 

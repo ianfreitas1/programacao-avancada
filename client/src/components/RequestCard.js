@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -21,15 +21,18 @@ const useStyles = makeStyles({
   },
 });
 
-const handleJoinClass = async () => {
-  const response = await joinClass(
-    { token: JSON.parse(localStorage.getItem('token')) },
-    { students }
-  );
-};
-
 export default function RequestCard({ card }) {
   const classes = useStyles();
+  const [userEnrolled, setUserEnrolled] = useState(card.userEnrolled);
+
+  const handleJoinClass = async requestId => {
+    await joinClass(
+      { token: JSON.parse(localStorage.getItem('token')) },
+      requestId
+    );
+
+    setUserEnrolled(true);
+  };
 
   return (
     <Card>
@@ -45,11 +48,11 @@ export default function RequestCard({ card }) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small"
-           onClick={handleJoinClass}
-        >
-          Join
-        </Button>
+        {!userEnrolled && (
+          <Button size="small" onClick={() => handleJoinClass(card._id)}>
+            Join
+          </Button>
+        )}
       </CardActions>
     </Card>
   );
