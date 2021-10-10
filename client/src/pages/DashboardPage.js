@@ -35,7 +35,9 @@ const DashboardPage = () => {
 
   useEffect(() => {
     async function fetchRequestsApi() {
-      const response = await readRequests();
+      const response = await readRequests({
+        token: JSON.parse(localStorage.getItem('token')),
+      });
       setCards(response);
     }
     fetchRequestsApi();
