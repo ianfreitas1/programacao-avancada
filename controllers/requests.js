@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Request = require('../models/Request');
 
 exports.createRequest = async (req, res) => {
@@ -34,24 +35,17 @@ exports.getAllRequests = async (req, res) => {
   }
 };
 
-exports.getRequest = (req, res) => {
-  const id = req.params.id;
+exports.getMyRequests = async (req, res) => {
+  try {
+    let requests = await Request.find(
+      { students : mongoose.Types.ObjectId("61646d2dd05fba0c064ed3e9") })
+        .populate('tutor')
+        .lean();
 
-  Request.findById(id)
-    .then(data => {
-      if (!data) {
-        res.status(404).json({
-          message: 'Não foi possível encontrar request com esse' + id,
-        });
-        return;
-      }
-      res.json(data);
-    })
-    .catch(error => {
-      res.status(500).json({
-        message: 'Erro ao dar fetch no request com esse' + id,
-      });
-    });
+    return res.json(requests);
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao dar fetch nos requests' });
+  }
 };
 
 exports.updateRequest = async (req, res) => {
