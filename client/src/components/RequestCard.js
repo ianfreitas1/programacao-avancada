@@ -5,7 +5,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { joinClass } from '../api/requestsApi';
+import { joinClass, leaveClass } from '../api/requestsApi';
 
 const useStyles = makeStyles({
   bullet: {
@@ -34,6 +34,15 @@ export default function RequestCard({ card }) {
     setUserEnrolled(true);
   };
 
+  const handleLeaveClass = async requestId => {
+    await leaveClass(
+      { token: JSON.parse(localStorage.getItem('token')) },
+      requestId
+    );
+
+    setUserEnrolled(false);
+  };
+
   return (
     <Card>
       <CardContent>
@@ -48,8 +57,22 @@ export default function RequestCard({ card }) {
         </Typography>
       </CardContent>
       <CardActions>
-        {!userEnrolled && (
-          <Button size="small" onClick={() => handleJoinClass(card._id)}>
+        {userEnrolled ? (
+          <Button
+            variant="contained"
+            size="small"
+            color="secondary"
+            onClick={() => handleLeaveClass(card._id)}
+          >
+            Quit
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            size="small"
+            color="primary"
+            onClick={() => handleJoinClass(card._id)}
+          >
             Join
           </Button>
         )}
