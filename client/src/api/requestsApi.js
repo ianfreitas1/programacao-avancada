@@ -9,6 +9,15 @@ async function readRequests(auth) {
   return response;
 }
 
+async function readMyRequests(auth) {
+  const response = await read({
+    resource: '/requests/myRequests',
+    auth,
+  });
+
+  return response;
+}
+
 async function createRequest(auth, requestData) {
   const response = await create({
     resource: '/requests',
@@ -28,4 +37,4 @@ async function joinClass(auth, requestId) {
   return response;
 }
 
-export { readRequests, createRequest, joinClass };
+export { readRequests, readMyRequests, createRequest, joinClass };
