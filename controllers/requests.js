@@ -38,7 +38,7 @@ exports.getAllRequests = async (req, res) => {
 exports.getMyRequests = async (req, res) => {
   try {
     let requests = await Request.find(
-      { students : mongoose.Types.ObjectId("61646d2dd05fba0c064ed3e9") })
+      { students : mongoose.Types.ObjectId(String(req.user?.id)) })
         .populate('tutor')
         .lean();
 
