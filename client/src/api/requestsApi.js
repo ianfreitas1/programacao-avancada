@@ -37,4 +37,13 @@ async function joinClass(auth, requestId) {
   return response;
 }
 
-export { readRequests, readMyRequests, createRequest, joinClass };
+async function leaveClass(auth, requestId) {
+  const response = await update({
+    resource: `/requests/unsubscribe/${requestId}`,
+    auth,
+  });
+
+  return response;
+}
+
+export { readRequests, readMyRequests, createRequest, joinClass, leaveClass };

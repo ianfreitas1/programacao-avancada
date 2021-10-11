@@ -5,6 +5,7 @@ const {
   getMyRequests,
   updateRequest,
   subscribeToClass,
+  unsubscribeFromClass,
   deleteRequest,
 } = require('../controllers/requests');
 const { protect } = require('../middlewares/auth');
@@ -16,6 +17,7 @@ router.get('', protect, getAllRequests);
 router.post('', protect, createRequest);
 router.put('/:id', protect, updateRequest);
 router.put('/subscribe/:id', protect, subscribeToClass);
+router.put('/unsubscribe/:id', protect, unsubscribeFromClass);
 router.delete('/:id', protect, deleteRequest);
 
 module.exports = router;

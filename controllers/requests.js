@@ -37,10 +37,11 @@ exports.getAllRequests = async (req, res) => {
 
 exports.getMyRequests = async (req, res) => {
   try {
-    let requests = await Request.find(
-      { students : mongoose.Types.ObjectId(String(req.user?.id)) })
-        .populate('tutor')
-        .lean();
+    let requests = await Request.find({
+      students: mongoose.Types.ObjectId(String(req.user?.id)),
+    })
+      .populate('tutor')
+      .lean();
 
     return res.json(requests);
   } catch (error) {
@@ -129,4 +130,46 @@ exports.subscribeToClass = async (req, res) => {
   );
 
   return res.json(request);
+};
+
+exports.unsubscribeFromClass = async (req, res) => {
+  const id = req.params.id;
+
+  let request = await Request.findById(id);
+
+  if (!request) {
+    return res
+      .status(404)
+      .json({ message: `Erro ao atualizar request com id ${id}` });
+  }
+
+  const studentAlreadyEnrolled = request.students?.some(
+    student => String(student) === String(req.user.id)
+  );
+
+  if (!studentAlreadyEnrolled) {
+    return res
+      .status(400)
+      .json({ message: 'Usuário não está cadastrado nessa classe' });
+  }
+
+  try {
+    request = await Request.findByIdAndUpdate(
+      id,
+      {
+        $pull: { students: req.user._id },
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    return res.json(request);
+  } catch (err) {
+    console.error(err);
+    return res
+      .status(500)
+      .json({ message: 'Falha ao remover usuário da aula' });
+  }
 };
