@@ -2,7 +2,7 @@ const express = require('express');
 const {
   createRequest,
   getAllRequests,
-  getRequest,
+  getMyRequests,
   updateRequest,
   subscribeToClass,
   deleteRequest,
@@ -11,7 +11,7 @@ const { protect } = require('../middlewares/auth');
 
 const router = express.Router();
 
-router.get('/:id', getRequest);
+router.get('/myRequests', getMyRequests);
 router.get('', protect, getAllRequests);
 router.post('', protect, createRequest);
 router.put('/:id', protect, updateRequest);
