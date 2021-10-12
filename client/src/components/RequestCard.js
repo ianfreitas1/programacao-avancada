@@ -6,6 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { joinClass, leaveClass } from '../api/requestsApi';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
   bullet: {
@@ -24,6 +25,11 @@ const useStyles = makeStyles({
 export default function RequestCard({ card }) {
   const classes = useStyles();
   const [userEnrolled, setUserEnrolled] = useState(card.userEnrolled);
+  const [studentsEnrolled, setStudentsEnrolled] = useState(
+    card.students.length
+  );
+  const showActionButton =
+    card.tutor._id !== JSON.parse(localStorage.getItem('user'))._id;
 
   const handleJoinClass = async requestId => {
     await joinClass(
@@ -32,6 +38,7 @@ export default function RequestCard({ card }) {
     );
 
     setUserEnrolled(true);
+    setStudentsEnrolled(studentsEnrolled + 1);
   };
 
   const handleLeaveClass = async requestId => {
@@ -41,6 +48,7 @@ export default function RequestCard({ card }) {
     );
 
     setUserEnrolled(false);
+    setStudentsEnrolled(studentsEnrolled - 1);
   };
 
   return (
@@ -55,9 +63,12 @@ export default function RequestCard({ card }) {
         <Typography variant="body2" component="p">
           {card.description}
         </Typography>
+        <Typography variant="h6">
+          Students enrolled: {studentsEnrolled}
+        </Typography>
       </CardContent>
       <CardActions>
-        {userEnrolled ? (
+        {showActionButton && userEnrolled && (
           <Button
             variant="contained"
             size="small"
@@ -66,7 +77,8 @@ export default function RequestCard({ card }) {
           >
             Quit
           </Button>
-        ) : (
+        )}
+        {showActionButton && !userEnrolled && (
           <Button
             variant="contained"
             size="small"
@@ -76,6 +88,13 @@ export default function RequestCard({ card }) {
             Join
           </Button>
         )}
+        <Button
+          component={Link}
+          to={`/request/${card._id}`}
+          variant="contained"
+        >
+          See details
+        </Button>
       </CardActions>
     </Card>
   );
