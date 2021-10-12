@@ -9,9 +9,27 @@ async function readRequests(auth) {
   return response;
 }
 
+async function readRequest(auth, id) {
+  const response = await read({
+    resource: `/requests/${id}`,
+    auth,
+  });
+
+  return response;
+}
+
 async function readMyRequests(auth) {
   const response = await read({
     resource: '/requests/myRequests',
+    auth,
+  });
+
+  return response;
+}
+
+async function readMyTaughtRequests(auth) {
+  const response = await read({
+    resource: '/requests/myTaughtRequests',
     auth,
   });
 
@@ -46,4 +64,12 @@ async function leaveClass(auth, requestId) {
   return response;
 }
 
-export { readRequests, readMyRequests, createRequest, joinClass, leaveClass };
+export {
+  readRequests,
+  readRequest,
+  readMyRequests,
+  readMyTaughtRequests,
+  createRequest,
+  joinClass,
+  leaveClass,
+};
