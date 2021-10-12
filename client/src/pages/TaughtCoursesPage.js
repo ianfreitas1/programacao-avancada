@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 
 import { Grid, Typography } from '@material-ui/core';
-import Header from '../components/Header';
 import RequestCard from '../components/RequestCard';
-import { readMyRequests } from '../api/requestsApi';
+import { readMyTaughtRequests } from '../api/requestsApi';
+import Header from '../components/Header';
 
-const RequestListPage = () => {
+const TaughtCoursesPage = () => {
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
     async function fetchRequestsApi() {
-      const response = await readMyRequests({
+      const response = await readMyTaughtRequests({
         token: JSON.parse(localStorage.getItem('token')),
       });
       setCards(response);
@@ -23,7 +23,7 @@ const RequestListPage = () => {
       <Header />
       <div style={{ padding: '50px 200px', marginTop: '4rem' }}>
         <Typography variant="h4" component="h2">
-          My requests
+          My taught requests
         </Typography>
         <Grid container spacing={2}>
           {cards.map(card => (
@@ -37,4 +37,4 @@ const RequestListPage = () => {
   );
 };
 
-export default RequestListPage;
+export default TaughtCoursesPage;
