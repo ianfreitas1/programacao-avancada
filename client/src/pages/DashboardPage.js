@@ -13,8 +13,8 @@ import {
   DialogContentText,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import RequestCard from '../components/RequestCard';
-import { createRequest, readRequests } from '../api/requestsApi';
+import CourseCard from '../components/CourseCard';
+import { createCourse, readCourses } from '../api/coursesApi';
 import Header from '../components/Header';
 
 const useStyles = makeStyles(theme => ({
@@ -34,13 +34,13 @@ const DashboardPage = () => {
   const [description, setDescription] = useState('');
 
   useEffect(() => {
-    async function fetchRequestsApi() {
-      const response = await readRequests({
+    async function fetchCoursesApi() {
+      const response = await readCourses({
         token: JSON.parse(localStorage.getItem('token')),
       });
       setCards(response);
     }
-    fetchRequestsApi();
+    fetchCoursesApi();
   }, []);
 
   const handleOpen = () => {
@@ -52,7 +52,7 @@ const DashboardPage = () => {
   };
 
   const handleCreateRequest = async () => {
-    const response = await createRequest(
+    const response = await createCourse(
       { token: JSON.parse(localStorage.getItem('token')) },
       { subject, description }
     );
@@ -84,7 +84,7 @@ const DashboardPage = () => {
         variant="h4"
         component="h2"
       >
-        Available requests
+        Available courses
       </Typography>
       <Button
         variant="contained"
@@ -93,7 +93,7 @@ const DashboardPage = () => {
         endIcon={<AddIcon />}
         onClick={handleOpen}
       >
-        New request
+        New course
       </Button>
 
       <Dialog
@@ -139,7 +139,7 @@ const DashboardPage = () => {
         <Grid container spacing={2}>
           {cards.map(card => (
             <Grid key={card._id} item xs={12} sm={4}>
-              <RequestCard card={card} />
+              <CourseCard card={card} />
             </Grid>
           ))}
         </Grid>

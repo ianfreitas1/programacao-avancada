@@ -5,7 +5,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import { joinClass, leaveClass } from '../api/requestsApi';
+import { joinClass, leaveClass } from '../api/coursesApi';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles({
@@ -22,7 +22,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function RequestCard({ card }) {
+export default function CourseCard({ card }) {
   const classes = useStyles();
   const [userEnrolled, setUserEnrolled] = useState(card.userEnrolled);
   const [studentsEnrolled, setStudentsEnrolled] = useState(
@@ -88,11 +88,7 @@ export default function RequestCard({ card }) {
             Join
           </Button>
         )}
-        <Button
-          component={Link}
-          to={`/request/${card._id}`}
-          variant="contained"
-        >
+        <Button component={Link} to={`/course/${card._id}`} variant="contained">
           See details
         </Button>
       </CardActions>

@@ -2,20 +2,20 @@ import React, { useEffect, useState } from 'react';
 
 import { Grid, Typography } from '@material-ui/core';
 import Header from '../components/Header';
-import RequestCard from '../components/RequestCard';
-import { readMyRequests } from '../api/requestsApi';
+import CourseCard from '../components/CourseCard';
+import { readMyCourses } from '../api/coursesApi';
 
 const RequestListPage = () => {
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
-    async function fetchRequestsApi() {
-      const response = await readMyRequests({
+    async function fetchCoursesApi() {
+      const response = await readMyCourses({
         token: JSON.parse(localStorage.getItem('token')),
       });
       setCards(response);
     }
-    fetchRequestsApi();
+    fetchCoursesApi();
   }, []);
 
   return (
@@ -23,12 +23,12 @@ const RequestListPage = () => {
       <Header />
       <div style={{ padding: '50px 200px', marginTop: '4rem' }}>
         <Typography variant="h4" component="h2">
-          My requests
+          My courses
         </Typography>
         <Grid container spacing={2}>
           {cards.map(card => (
             <Grid key={card._id} item xs={12} sm={4}>
-              <RequestCard card={card} />
+              <CourseCard card={card} />
             </Grid>
           ))}
         </Grid>

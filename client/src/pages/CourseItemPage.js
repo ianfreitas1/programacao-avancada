@@ -1,65 +1,65 @@
 import React, { useEffect, useState } from 'react';
 
 import { Typography } from '@material-ui/core';
-import { readRequest } from '../api/requestsApi';
+import { readCourse } from '../api/coursesApi';
 import Header from '../components/Header';
 import { useParams } from 'react-router';
 
 const RequestItemPage = () => {
   const { id } = useParams();
-  const [request, setRequest] = useState(null);
+  const [course, setCourse] = useState(null);
   const showStudents =
-    request?.tutor._id === JSON.parse(localStorage.getItem('user'))._id;
+    course?.tutor._id === JSON.parse(localStorage.getItem('user'))._id;
 
   useEffect(() => {
-    async function fetchRequestsApi() {
-      const response = await readRequest(
+    async function fetchCourseApi() {
+      const response = await readCourse(
         {
           token: JSON.parse(localStorage.getItem('token')),
         },
         id
       );
-      setRequest(response);
+      setCourse(response);
     }
-    fetchRequestsApi();
+    fetchCourseApi();
   }, []);
 
   return (
     <>
       <Header />
       <div style={{ padding: '50px 200px', marginTop: '4rem' }}>
-        {request && (
+        {course && (
           <>
             <Typography variant="h4" component="h2">
-              {request.subject}
+              {course.subject}
             </Typography>
             <Typography color="textSecondary">
-              Tutor: {request.tutor.name}
+              Tutor: {course.tutor.name}
             </Typography>
             <Typography color="textSecondary">
-              Email: {request.tutor.email}
+              Email: {course.tutor.email}
             </Typography>
             <Typography color="textSecondary">
-              Major: {request.tutor.major}
+              Major: {course.tutor.major}
             </Typography>
             <Typography color="textSecondary">
-              Age: {request.tutor.age}
+              Age: {course.tutor.age}
             </Typography>
             <Typography style={{ marginTop: '2rem' }} variant="h5">
               Course Overview
             </Typography>
-            <Typography component="p">{request.description}</Typography>
+            <Typography component="p">{course.description}</Typography>
             {showStudents && (
               <>
                 <Typography style={{ marginTop: '2rem' }} variant="h5">
                   Students enrolled
                 </Typography>
-                {request.students.length === 0 ? (
+                {course.students.length === 0 ? (
                   <Typography component="p">
                     No students currently enrolled
                   </Typography>
                 ) : (
-                  request.students.map(student => (
+                  course.students.map(student => (
                     <Typography component="p">
                       {student.name} - {student.email}
                     </Typography>

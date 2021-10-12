@@ -1,6 +1,6 @@
 import { read, create, update } from './apiHandler';
 
-async function readRequests(auth) {
+async function readCourses(auth) {
   const response = await read({
     resource: '/requests',
     auth,
@@ -9,7 +9,7 @@ async function readRequests(auth) {
   return response;
 }
 
-async function readRequest(auth, id) {
+async function readCourse(auth, id) {
   const response = await read({
     resource: `/requests/${id}`,
     auth,
@@ -18,7 +18,7 @@ async function readRequest(auth, id) {
   return response;
 }
 
-async function readMyRequests(auth) {
+async function readMyCourses(auth) {
   const response = await read({
     resource: '/requests/myRequests',
     auth,
@@ -27,7 +27,7 @@ async function readMyRequests(auth) {
   return response;
 }
 
-async function readMyTaughtRequests(auth) {
+async function readMyTaughtCourses(auth) {
   const response = await read({
     resource: '/requests/myTaughtRequests',
     auth,
@@ -36,7 +36,7 @@ async function readMyTaughtRequests(auth) {
   return response;
 }
 
-async function createRequest(auth, requestData) {
+async function createCourse(auth, requestData) {
   const response = await create({
     resource: '/requests',
     body: requestData,
@@ -65,11 +65,11 @@ async function leaveClass(auth, requestId) {
 }
 
 export {
-  readRequests,
-  readRequest,
-  readMyRequests,
-  readMyTaughtRequests,
-  createRequest,
+  readCourses,
+  readCourse,
+  readMyCourses,
+  readMyTaughtCourses,
+  createCourse,
   joinClass,
   leaveClass,
 };
