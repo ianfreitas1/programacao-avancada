@@ -13,9 +13,9 @@ import {
   DialogContentText,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
-import Header from '../components/Header';
 import RequestCard from '../components/RequestCard';
 import { createRequest, readRequests } from '../api/requestsApi';
+import Header from '../components/Header';
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -74,8 +74,13 @@ const DashboardPage = () => {
   return (
     <>
       <Header />
+
       <Typography
-        style={{ padding: '0px  0px 0 200px', transform: 'translateY(50%)' }}
+        style={{
+          padding: '0px  0px 0 200px',
+          transform: 'translateY(50%)',
+          marginTop: '4rem',
+        }}
         variant="h4"
         component="h2"
       >
