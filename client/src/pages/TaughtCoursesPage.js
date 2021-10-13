@@ -25,6 +25,11 @@ const TaughtCoursesPage = () => {
         <Typography variant="h4" component="h2">
           My taught courses
         </Typography>
+        {cards.length === 0 && (
+          <Typography component="p">
+            Currently you are not teaching any course.
+          </Typography>
+        )}
         <Grid container spacing={2}>
           {cards.map(card => (
             <Grid key={card._id} item xs={12} sm={4}>

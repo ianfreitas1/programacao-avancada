@@ -25,6 +25,11 @@ const CourseListPage = () => {
         <Typography variant="h4" component="h2">
           My courses
         </Typography>
+        {cards.length === 0 && (
+          <Typography component="p">
+            Currently you are not enrolled in any course.
+          </Typography>
+        )}
         <Grid container spacing={2}>
           {cards.map(card => (
             <Grid key={card._id} item xs={12} sm={4}>
