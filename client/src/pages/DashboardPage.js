@@ -23,6 +23,12 @@ const useStyles = makeStyles(theme => ({
     marginTop: '40px',
     marginLeft: '200px',
   },
+  search: {
+    outline: 'none',
+    height: '2rem',
+    marginLeft: '200px',
+    transform: 'translateY(50%)',
+  },
 }));
 
 const DashboardPage = () => {
@@ -32,6 +38,7 @@ const DashboardPage = () => {
   const [open, setOpen] = useState(false);
   const [subject, setSubject] = useState('');
   const [description, setDescription] = useState('');
+  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
     async function fetchCoursesApi() {
@@ -136,13 +143,33 @@ const DashboardPage = () => {
         </DialogActions>
       </Dialog>
 
+      <div>
+        <input
+          className={classes.search}
+          value={searchText}
+          placeholder="Search..."
+          onChange={e => setSearchText(e.target.value)}
+        />
+      </div>
+
       <div style={{ padding: '50px 200px' }}>
         <Grid container spacing={2}>
-          {cards.map(card => (
-            <Grid key={card._id} item xs={12} sm={4}>
-              <CourseCard card={card} />
-            </Grid>
-          ))}
+          {cards
+            .filter(
+              card =>
+                card.subject.toLowerCase().includes(searchText.toLowerCase()) ||
+                card.tutor.name
+                  .toLowerCase()
+                  .includes(searchText.toLowerCase()) ||
+                card.description
+                  .toLowerCase()
+                  .includes(searchText.toLowerCase())
+            )
+            .map(card => (
+              <Grid key={card._id} item xs={12} sm={4}>
+                <CourseCard card={card} />
+              </Grid>
+            ))}
         </Grid>
       </div>
     </>
