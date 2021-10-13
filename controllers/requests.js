@@ -25,12 +25,26 @@ exports.getAllRequests = async (req, res) => {
       const requestUserEnrolled = request.students?.some(
         student => String(student) === String(req.user?.id)
       );
+
       request.userEnrolled = requestUserEnrolled;
       return request;
     });
 
     return res.json(requests);
   } catch (error) {
+    res.status(500).json({ message: 'Erro ao dar fetch nos requests' });
+  }
+};
+
+exports.getRequest = async (req, res) => {
+  try {
+    const requests = await Request.findById(req.params.id)
+      .populate('tutor')
+      .populate('students');
+
+    return res.json(requests);
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ message: 'Erro ao dar fetch nos requests' });
   }
 };
@@ -43,6 +57,31 @@ exports.getMyRequests = async (req, res) => {
       .populate('tutor')
       .lean();
 
+    requests = requests.map(request => {
+      request.userEnrolled = true;
+      return request;
+    });
+
+    return res.json(requests);
+  } catch (error) {
+    res.status(500).json({ message: 'Erro ao dar fetch nos requests' });
+  }
+};
+
+exports.getMyTaughtRequests = async (req, res) => {
+  try {
+    let requests = await Request.find({
+      tutor: mongoose.Types.ObjectId(String(req.user?.id)),
+    })
+      .populate('students')
+      .populate('tutor')
+      .lean();
+
+    requests = requests.map(request => {
+      request.userEnrolled = false;
+      return request;
+    });
+
     return res.json(requests);
   } catch (error) {
     res.status(500).json({ message: 'Erro ao dar fetch nos requests' });
@@ -52,7 +91,9 @@ exports.getMyRequests = async (req, res) => {
 exports.updateRequest = async (req, res) => {
   const id = req.params.id;
 
-  let request = await Request.findById(id);
+  let request = await Request.findById(id)
+    .populate('tutor')
+    .populate('students');
 
   if (!request) {
     return res
@@ -60,7 +101,7 @@ exports.updateRequest = async (req, res) => {
       .json({ message: `Erro ao atualizar request com id ${id}` });
   }
 
-  if (request.tutor !== req.user) {
+  if (String(request.tutor._id) !== String(req.user.id)) {
     return res
       .status(400)
       .json({ message: `Erro ao atualizar request com id ${id}` });
@@ -69,7 +110,9 @@ exports.updateRequest = async (req, res) => {
   request = await Request.findByIdAndUpdate(id, req.body, {
     new: true,
     runValidators: true,
-  });
+  })
+    .populate('tutor')
+    .populate('students');
 
   return res.json(request);
 };
@@ -86,7 +129,7 @@ exports.deleteRequest = async (req, res) => {
     });
   }
 
-  if (request.tutor !== req.user) {
+  if (String(request.tutor) !== String(req.user.id)) {
     return res
       .status(400)
       .json({ message: `Erro ao deletar request com id ${id}` });
@@ -116,6 +159,12 @@ exports.subscribeToClass = async (req, res) => {
     return res
       .status(400)
       .json({ message: 'Usuário já está cadastrado nesta classe' });
+  }
+
+  if (String(request.tutor) === String(req.user.id)) {
+    return res
+      .status(400)
+      .json({ message: 'Tutor não pode se cadastrar na própria classe' });
   }
 
   request = await Request.findByIdAndUpdate(

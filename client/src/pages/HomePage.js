@@ -1,8 +1,8 @@
 import React from 'react';
-import Header from '../components/Header';
+import { Redirect } from 'react-router';
 
 const HomePage = () => {
-  return <Header />;
+  return <Redirect to="/dashboard" />;
 };
 
 export default HomePage;

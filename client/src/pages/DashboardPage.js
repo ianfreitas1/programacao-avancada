@@ -13,9 +13,9 @@ import {
   DialogContentText,
 } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
+import CourseCard from '../components/CourseCard';
+import { createCourse, readCourses } from '../api/coursesApi';
 import Header from '../components/Header';
-import RequestCard from '../components/RequestCard';
-import { createRequest, readRequests } from '../api/requestsApi';
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -34,13 +34,13 @@ const DashboardPage = () => {
   const [description, setDescription] = useState('');
 
   useEffect(() => {
-    async function fetchRequestsApi() {
-      const response = await readRequests({
+    async function fetchCoursesApi() {
+      const response = await readCourses({
         token: JSON.parse(localStorage.getItem('token')),
       });
       setCards(response);
     }
-    fetchRequestsApi();
+    fetchCoursesApi();
   }, []);
 
   const handleOpen = () => {
@@ -51,8 +51,8 @@ const DashboardPage = () => {
     setOpen(false);
   };
 
-  const handleCreateRequest = async () => {
-    const response = await createRequest(
+  const handleCreateCourse = async () => {
+    const response = await createCourse(
       { token: JSON.parse(localStorage.getItem('token')) },
       { subject, description }
     );
@@ -64,6 +64,7 @@ const DashboardPage = () => {
         tutor: response.request.tutor,
         subject: response.request.subject,
         description: response.request.description,
+        students: response.request.students,
       },
     ];
 
@@ -74,12 +75,17 @@ const DashboardPage = () => {
   return (
     <>
       <Header />
+
       <Typography
-        style={{ padding: '0px  0px 0 200px', transform: 'translateY(50%)' }}
+        style={{
+          padding: '0px  0px 0 200px',
+          transform: 'translateY(50%)',
+          marginTop: '4rem',
+        }}
         variant="h4"
         component="h2"
       >
-        Available requests
+        Available courses
       </Typography>
       <Button
         variant="contained"
@@ -88,7 +94,7 @@ const DashboardPage = () => {
         endIcon={<AddIcon />}
         onClick={handleOpen}
       >
-        New request
+        New course
       </Button>
 
       <Dialog
@@ -96,10 +102,10 @@ const DashboardPage = () => {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">New request</DialogTitle>
+        <DialogTitle id="form-dialog-title">New course</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To create a new request, please add a subject and a description.
+            To create a new course, please add a subject and a description.
           </DialogContentText>
           <TextField
             autoFocus
@@ -124,7 +130,7 @@ const DashboardPage = () => {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleCreateRequest} color="primary">
+          <Button onClick={handleCreateCourse} color="primary">
             Confirm
           </Button>
         </DialogActions>
@@ -134,7 +140,7 @@ const DashboardPage = () => {
         <Grid container spacing={2}>
           {cards.map(card => (
             <Grid key={card._id} item xs={12} sm={4}>
-              <RequestCard card={card} />
+              <CourseCard card={card} />
             </Grid>
           ))}
         </Grid>
