@@ -51,7 +51,7 @@ const DashboardPage = () => {
     setOpen(false);
   };
 
-  const handleCreateRequest = async () => {
+  const handleCreateCourse = async () => {
     const response = await createCourse(
       { token: JSON.parse(localStorage.getItem('token')) },
       { subject, description }
@@ -64,6 +64,7 @@ const DashboardPage = () => {
         tutor: response.request.tutor,
         subject: response.request.subject,
         description: response.request.description,
+        students: response.request.students,
       },
     ];
 
@@ -101,10 +102,10 @@ const DashboardPage = () => {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">New request</DialogTitle>
+        <DialogTitle id="form-dialog-title">New course</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To create a new request, please add a subject and a description.
+            To create a new course, please add a subject and a description.
           </DialogContentText>
           <TextField
             autoFocus
@@ -129,7 +130,7 @@ const DashboardPage = () => {
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
-          <Button onClick={handleCreateRequest} color="primary">
+          <Button onClick={handleCreateCourse} color="primary">
             Confirm
           </Button>
         </DialogActions>

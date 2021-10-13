@@ -5,7 +5,7 @@ import Header from '../components/Header';
 import CourseCard from '../components/CourseCard';
 import { readMyCourses } from '../api/coursesApi';
 
-const RequestListPage = () => {
+const CourseListPage = () => {
   const [cards, setCards] = useState([]);
 
   useEffect(() => {
@@ -37,4 +37,4 @@ const RequestListPage = () => {
   );
 };
 
-export default RequestListPage;
+export default CourseListPage;

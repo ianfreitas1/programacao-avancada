@@ -1,4 +1,4 @@
-import { read, create, update } from './apiHandler';
+import { read, create, update, remove } from './apiHandler';
 
 async function readCourses(auth) {
   const response = await read({
@@ -46,6 +46,25 @@ async function createCourse(auth, requestData) {
   return response;
 }
 
+async function editCourse(auth, courseId, courseData) {
+  const response = await update({
+    resource: `/requests/${courseId}`,
+    body: courseData,
+    auth,
+  });
+
+  return response;
+}
+
+async function deleteCourse(auth, courseId) {
+  const response = await remove({
+    resource: `/requests/${courseId}`,
+    auth,
+  });
+
+  return response;
+}
+
 async function joinClass(auth, requestId) {
   const response = await update({
     resource: `/requests/subscribe/${requestId}`,
@@ -72,4 +91,6 @@ export {
   createCourse,
   joinClass,
   leaveClass,
+  deleteCourse,
+  editCourse,
 };

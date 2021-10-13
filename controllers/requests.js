@@ -91,7 +91,9 @@ exports.getMyTaughtRequests = async (req, res) => {
 exports.updateRequest = async (req, res) => {
   const id = req.params.id;
 
-  let request = await Request.findById(id);
+  let request = await Request.findById(id)
+    .populate('tutor')
+    .populate('students');
 
   if (!request) {
     return res
@@ -99,7 +101,7 @@ exports.updateRequest = async (req, res) => {
       .json({ message: `Erro ao atualizar request com id ${id}` });
   }
 
-  if (request.tutor !== req.user) {
+  if (String(request.tutor._id) !== String(req.user.id)) {
     return res
       .status(400)
       .json({ message: `Erro ao atualizar request com id ${id}` });
@@ -108,7 +110,9 @@ exports.updateRequest = async (req, res) => {
   request = await Request.findByIdAndUpdate(id, req.body, {
     new: true,
     runValidators: true,
-  });
+  })
+    .populate('tutor')
+    .populate('students');
 
   return res.json(request);
 };
@@ -125,7 +129,7 @@ exports.deleteRequest = async (req, res) => {
     });
   }
 
-  if (request.tutor !== req.user) {
+  if (String(request.tutor) !== String(req.user.id)) {
     return res
       .status(400)
       .json({ message: `Erro ao deletar request com id ${id}` });
